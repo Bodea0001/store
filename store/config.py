@@ -1,3 +1,4 @@
+from datetime import timedelta
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -30,6 +31,12 @@ class DatabaseConfig(BaseModel):
         return f"{self.database}+{self.driver}://{self.user}:{self.password}@{self.host}:{self.port}/{self.name}"
 
 
+class TokenSettings(BaseModel):
+    algorithm: str = "HS256"
+    key: str
+    default_exp_delta: timedelta = timedelta(days=10)
+
+
 class GlobalSettings(BaseSettings):
     model_config = SettingsConfigDict(
         case_sensitive=False,
@@ -38,6 +45,7 @@ class GlobalSettings(BaseSettings):
     )
 
     db: DatabaseConfig
+    token: TokenSettings
 
 
 settings = GlobalSettings()  # type: ignore
