@@ -37,6 +37,10 @@ class TokenSettings(BaseModel):
     default_exp_delta: timedelta = timedelta(days=10)
 
 
+class SecutirySettings(BaseModel):
+    salt: str
+
+
 class GlobalSettings(BaseSettings):
     model_config = SettingsConfigDict(
         case_sensitive=False,
@@ -46,6 +50,7 @@ class GlobalSettings(BaseSettings):
 
     db: DatabaseConfig
     token: TokenSettings
+    security: SecutirySettings
 
 
 settings = GlobalSettings()  # type: ignore

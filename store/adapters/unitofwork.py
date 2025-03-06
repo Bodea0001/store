@@ -2,12 +2,17 @@ from logging import getLogger
 from abc import ABC, abstractmethod
 
 from adapters.db import async_session_factory
-
+from adapters.repositories.user import (
+    AbstractUserRepository,
+    SQLAlchemyUserRepository,
+)
 
 logger = getLogger(__name__)
 
 
 class IUnitOfWork(ABC):
+    user: AbstractUserRepository
+
     @abstractmethod
     async def commit(self):
         raise NotImplementedError
@@ -37,6 +42,7 @@ class SQLAlchemyUnitOfWork(IUnitOfWork):
 
     async def __aenter__(self):
         self.session = self.session_factory()
+        self.user = SQLAlchemyUserRepository(self.session)
 
         return await super().__aenter__()
 
