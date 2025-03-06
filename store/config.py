@@ -1,4 +1,5 @@
 from datetime import timedelta
+from pathlib import Path
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -41,6 +42,10 @@ class SecutirySettings(BaseModel):
     salt: str
 
 
+class ImagesSettings(BaseModel):
+    path: Path = Path("../images").resolve()
+
+
 class GlobalSettings(BaseSettings):
     model_config = SettingsConfigDict(
         case_sensitive=False,
@@ -51,6 +56,7 @@ class GlobalSettings(BaseSettings):
     db: DatabaseConfig
     token: TokenSettings
     security: SecutirySettings
+    image: ImagesSettings = ImagesSettings()
 
 
 settings = GlobalSettings()  # type: ignore

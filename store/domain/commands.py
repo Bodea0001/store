@@ -1,4 +1,5 @@
 from uuid import UUID
+from decimal import Decimal
 from dataclasses import dataclass
 
 
@@ -23,3 +24,26 @@ class UpdateUser(Command):
     patronymic: str | None = None
     email: str | None = None
     password: str | None = None
+
+
+@dataclass
+class AuthUser(Command):
+    email: str
+    password: str
+
+
+@dataclass
+class CreateItem(Command):
+    name: str
+    info: str
+    price: Decimal
+    category_id: int
+
+
+@dataclass
+class UpdateItem(Command):
+    item_id: UUID
+    name: str | None = None
+    info: str | None = None
+    price: Decimal | None = None
+    category_id: int | None = None

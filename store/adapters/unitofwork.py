@@ -6,12 +6,18 @@ from adapters.repositories.user import (
     AbstractUserRepository,
     SQLAlchemyUserRepository,
 )
+from adapters.repositories.item import (
+    AbstractItemRepository,
+    SQLAlchemyItemRepository,
+)
+
 
 logger = getLogger(__name__)
 
 
 class IUnitOfWork(ABC):
     user: AbstractUserRepository
+    item: AbstractItemRepository
 
     @abstractmethod
     async def commit(self):
@@ -43,6 +49,7 @@ class SQLAlchemyUnitOfWork(IUnitOfWork):
     async def __aenter__(self):
         self.session = self.session_factory()
         self.user = SQLAlchemyUserRepository(self.session)
+        self.item = SQLAlchemyItemRepository(self.session)
 
         return await super().__aenter__()
 

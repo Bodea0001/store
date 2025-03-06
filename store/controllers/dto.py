@@ -10,3 +10,7 @@ class UpdateUserDTO(DataclassDTO[commands.UpdateUser]):
 
 class ReturnUserDTO(DataclassDTO[User]):
     config = DTOConfig(exclude={"hashed_password"})
+
+
+class UpdateItemDTO(DataclassDTO[commands.UpdateItem]):
+    config = DTOConfig(exclude={"item_id"})
